@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GopherFace | Sign Up</title>
+</head>
+
+<body>
+    <h1>GopherFace - Sign Up</h1>
+    <div class="formContainer">
+        <form action="/singup" method="POST" class="pure-form pure-form-aligned">
+            <fieldset>
+
+                <div class="pure-control-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" placeholder="Username" name="username" value="{{.Fields.username}}">
+                    <span id="usernameError" class="pure-form-message-inline">{{.Errors.firstNameError}}</span>
+                </div>
+
+                <div class="pure-control-group">
+                    <label for="firstName">First Name</label>
+                    <input id="firstName" type="text" placeholder="First Name" name="firstName" value="{{.Fields.firstName}}">
+                    <span id="firstNameError" class="pure-form-message-inline">{{.Errors.firstNameError}}</span>
+                </div>
+
+                <div class="pure-control-group">
+                    <label for="lastName">Last Name</label>
+                    <input id="lastName" type="text" placeholder="Last Name" name="lastName" value="{{.Fields.lastName}}">
+                    <span id="lastNameError" class="pure-form-message-inline">{{.Errors.lastNameError}}</span>
+                </div>
+
+                <div class="pure-control-group">
+                    <label for="email">E-mail Address</label>
+                    <input id="email" type="text" placeholder="E-mail Address" name="email" value="{{.Fields.email}}">
+                    <span id="emailError" class="pure-form-message-inline">{{.Errors.emailError}}</span>
+                </div>
+
+                <div class="pure-control-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="text" placeholder="Password" name="password" value="{{.Fields.password}}">
+                    <span id="passwordError" class="pure-form-message-inline">{{.Errors.passwordError}}</span>
+                </div>
+
+                <div class="pure-controls">
+                    <input class="pure-button pure-button-primary" type="submit" value="Sing Up" />
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+
+</html>

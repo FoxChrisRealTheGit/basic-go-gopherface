@@ -29,6 +29,9 @@ func main(){
 	r.HandleFunc("/profile/{username}", handlers.ProfileHandler).Methods("GET")
 	r.HandleFunc("/triggerpanic", handlers.TriggerPanicHandler).Methods("GET")
 	r.HandleFunc("/foo", handlers.FooHandler).Methods("GET")
+	r.HandleFunc("/signup", handlers.SignUpHandler).Methods("GET", "POST")
+	r.HandleFunc("/postpreview", handlers.PostPreviewHandler).Methods("GET","POST")
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	r.HandleFunc("restapi/socialmediapost/{username}", endpoints.FetchPostsEndpoint).Methods("GET")
 	r.HandleFunc("restapi/socialmediapost/{postid}", endpoints.CreatePostEndpoint).Methods("POST")
