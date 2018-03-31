@@ -8,7 +8,7 @@ import (
 
 	"tutorials/backendwebdev/gopherface/models"
 
-	// "github.com/gorilla/securecookie"
+	"github.com/gorilla/securecookie"
 )
 
 var hashKey []byte

@@ -12,6 +12,7 @@ import (
 	"tutorials/backendwebdev/gopherface/handlers"
 	"tutorials/backendwebdev/gopherface/middleware"
 	// "tutorials/backendwebdev/gopherface/common"
+	"tutorials/backendwebdev/gopherface/gopherfacedb/common/asyncq"
 	// "tutorials/backendwebdev/gopherface/common/datastore"
 )
 
@@ -20,6 +21,8 @@ const(
 )
 
 func main(){
+
+	aysncq.StartTaskDispatcher(9)
 
 	db, err := datastore.NewDatastore(datastore.MYSQL, "gopherface:gopherface@/gopherfacedb")
 
@@ -35,17 +38,19 @@ func main(){
 	r.HandleFunc("/register", handlers.RegisterHandler).Methods("GET,POST")
 	r.HandleFunc("/login", handlers.LoginHandler(&env)).Methods("POST")
 	r.HandleFunc("/logout", handlers.LogoutHandler).Methods("POST")
-	r.HandleFunc("/feed", handlers.FeedHandler).Methods("GET")
-	r.HandleFunc("/friends", handlers.FriendsHandler).Methods("GET")
-	r.HandleFunc("/find", handlers.FindHandler).Methods("GET,POST")
-	r.HandleFunc("/profile", handlers.MyProfileHandler).Methods("GET")
-	r.HandleFunc("/profile/{username}", handlers.ProfileHandler).Methods("GET")
-	r.HandleFunc("/triggerpanic", handlers.TriggerPanicHandler).Methods("GET")
-	r.HandleFunc("/foo", handlers.FooHandler).Methods("GET")
 	r.HandleFunc("/signup", handlers.SignUpHandler(&env)).Methods("GET", "POST")
-	r.HandleFunc("/postpreview", handlers.PostPreviewHandler).Methods("GET","POST")
-	r.HandleFunc("/upload-image", handlers.UploadImageHandler).Methods("GET","POST")
-	r.HandleFunc("/upload-video", handlers.UploadVideoHandler).Methods("GET","POST")
+
+	r.HandleFunc("/feed", middleware.GatedContentHandler(handlers.FeedHandler)).Methods("GET")
+	r.HandleFunc("/friends",  middleware.GatedContentHandler(handlers.FriendsHandler)).Methods("GET")
+	r.HandleFunc("/find", middleware.GatedContentHandler(handlers.FindHandler)).Methods("GET,POST")
+	r.HandleFunc("/profile", middleware.GatedContentHandler(handlers.MyProfileHandler)).Methods("GET")
+	r.HandleFunc("/profile/{username}", middleware.GatedContentHandler(handlers.ProfileHandler)).Methods("GET")
+	r.HandleFunc("/triggerpanic", middleware.GatedContentHandler(handlers.TriggerPanicHandler)).Methods("GET")
+	r.HandleFunc("/foo",middleware.GatedContentHandler(handlers.FooHandler)).Methods("GET")
+	r.HandleFunc("/postpreview", middleware.GatedContentHandler(handlers.PostPreviewHandler)).Methods("GET","POST")
+	r.HandleFunc("/upload-image", middleware.GatedContentHandler(handlers.UploadImageHandler)).Methods("GET","POST")
+	r.HandleFunc("/upload-video", middleware.GatedContentHandler(handlers.UploadVideoHandler)).Methods("GET","POST")
+
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	r.HandleFunc("restapi/socialmediapost/{username}", endpoints.FetchPostsEndpoint).Methods("GET")

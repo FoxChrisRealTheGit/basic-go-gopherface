@@ -7,7 +7,7 @@ import (
 
 	"tutorials/backendwebdev/gopherface/models"
 
-	// "github.com/gorilla/sessions"
+	"github.com/gorilla/sessions"
 )
 
 var SessionStore *sessions.FilesystemStore
